@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <string> //Для введения строки
 #include <cmath> //Для степени (перевода в 10сс)
@@ -28,3 +29,18 @@ int main()
     }
     cout << A;
 }
+*/
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int s, x, k;
+    cin >> s >> k;
+
+    x = ~(1<<k);
+    s = s & x;
+
+    cout << s << endl;
+}
+
