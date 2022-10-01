@@ -1,29 +1,20 @@
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <cmath>
 using namespace std;
 
 int main() {
-    int A, n; string s = "", sub = "", sym;
+    int A, n, first_part, second_part, result;
     cin >> A >> n;
 
-    while (A>0) {
-        s += to_string(A%2); // Перевод инта в строку
-        A /= 2;
-    }
+    first_part = (A << n);
 
-    reverse(s.begin(), s.end()); // Переворот строки
+    second_part = ((A & ~((A >> n) << n)) >> (8 - n));
 
-    sub = s.substr(0, n); // Создание подстроки, которая смещается в конец
+    result = (first_part | second_part);
 
-    s = s.substr(n, s.length()); // Создание подстроки, которая смещается в начало
+    result &= ~((result >> 8) << 8);
 
-    s.append(sub); // Добавление отделённой части в конец
-
-    for (int i = 0; i < s.length(); i++){
-        sym = s[i]; // Значение бита, на которое необходимо умножить степень двойки
-        A += pow(2,(s.length() - 1 - i)) * atoi(sym.c_str()); // Формирование десятичного числа по правилам
-    }
-    cout << A << endl;
+    cout << result << endl;
 }
+/*
+ *   (A & ~((A >> B) << B)) - "срез" числовой записи для переноса вперёд (допустим B = 2, A = 0001 1011, тогда результат: 0000 0011)
+ */
