@@ -16,7 +16,6 @@ int main() {
         jahre_tage[2] = 29; // Условие, показывающее, что год високосный
     }
 
-
     if (bday == 29 and bmonth == 2 and (jahre_tage[2] = 29)){ // Добавление дней в случае, если год невисокосный,
         for (int i = year; i < 3000; i++){                    // а др 29 февраля
             if (i % 400 == 0 or (i % 4 == 0 and i % 100 != 0)){
@@ -27,7 +26,7 @@ int main() {
     }
 
 
-    if ((bmonth == month and bday >= day and jahre_tage[2] != 29 and bday != 29)
+    if ((bmonth == month and bday >= day /* and jahre_tage[2] != 29 */ and bday != 29)
         or ((year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)) and bday == 29)) { // Нормализация счётчика дней
         count = bday - day;                                                             // внутри одного месяца
         cout << count << endl; return 0;//1
