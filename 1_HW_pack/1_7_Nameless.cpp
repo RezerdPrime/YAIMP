@@ -2,19 +2,13 @@
 using namespace std;
 
 int main() {
-    int A, n, first_part, second_part, result;
+    int A, n, first_part, second_part;
     cin >> A >> n;
 
-    first_part = (A << n);
+    first_part = A << n;
 
-    second_part = ((A & ~((A >> n) << n)) >> (8 - n));
+    second_part = A >> (32 | (~n | 1)); second_part &= (~((~(1 << 31) >> n) << n)) & ~(1 << 31); // ~(1 << 31) -> 2 147 483 647
 
-    result = (first_part | second_part);
+    // А вообще это побитовый срез вплодь до знака
 
-    result &= ~((result >> 8) << 8);
-
-    cout << result << endl;
-}
-/*
- *   (A & ~((A >> B) << B)) - "срез" числовой записи для переноса вперёд (допустим B = 2, A = 0001 1011, тогда результат: 0000 0011)
- */
+    cout << (first_part | second_part) << endl;
