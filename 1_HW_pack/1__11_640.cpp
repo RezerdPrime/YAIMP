@@ -5,60 +5,31 @@
 using namespace std;
 
 int main() {
-    int bday, bmonth, day, month, year, count = 0;
-    int jahre_tage[13] = {0, 31, 28, 31, 30, 31,
-                          30, 31, 31, 30, 31, 30, 31};
+    int day, mouth, year, bday, bmouth;
+    cin >> bday >> bmouth; cin >> day >> mouth >> year;
 
-    cin >> bday >> bmonth;
-    cin >> day >> month >> year;
+    int arg = (14 - mouth) / 12,    year_arg = year + 4800 - arg,    mouth_arg = mouth + 12 * arg - 3;
 
-    if (year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)){ // Проверка года на "високосность"
-        jahre_tage[2] = 29; // Условие, показывающее, что год високосный
+    int JDN = day + (153 * mouth_arg + 2) / 5 + 365 * year_arg + (year_arg / 4) - (year_arg / 100) + (year_arg / 400) - 32045;
+
+    if  (((bmouth < mouth) and (bday != 29 or bmouth != 2)) or ((bmouth == mouth) and (bday < day))) { /* Если месяц рождения перед текущим и др не 29 фев
+                                                                                                            ИЛИ др в одном месяце с тек.датой, но уже прошёл */
+        year++;
+        //cout << "first\n";/////
     }
 
-    if (bday == 29 and bmonth == 2 and (jahre_tage[2] = 29)){ // Добавление дней в случае, если год невисокосный,
-        for (int i = year; i < 3000; i++){                    // а др 29 февраля
-            if (i % 400 == 0 or (i % 4 == 0 and i % 100 != 0)){
-                count += 365 * (i - year - 1);
-                break;
-            }
+    else if ( !(((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) and (bday == 29 and bmouth == 2) ) { /* Добавление дней, если текущий год невисокосный
+                                                                                                                                                    и др 29 фев */
+
+        while ( !(((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) ) { // Проверка года на "високосность"
+            year++;
+            //cout << year << " <> " << (((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) << "\nsecond\n";/////
         }
     }
 
+    int arg2 = (14 - bmouth) / 12,     year_arg2 = year + 4800 - arg2,     mouth_arg2 = bmouth + 12 * arg2 - 3;
 
-    if ((bmonth == month and bday >= day /* and jahre_tage[2] != 29 */ and bday != 29)
-        or ((year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)) and bday == 29)) { // Нормализация счётчика дней
-        count = bday - day;                                                             // внутри одного месяца
-        cout << count << endl; return 0;//1
-    }
+    int JDN2 = bday + (153 * mouth_arg2 + 2) / 5 + 365 * year_arg2 + (year_arg2 / 4) - (year_arg2 / 100) + (year_arg2 / 400) - 32045;
 
-
-    if (((day < bday) or (month < bmonth)) and (not(bday == 29 and bmonth == 2))) { // Стандартное сложение дней от даты до даты (если др после текущ. дня)
-        jahre_tage[month] -= day; jahre_tage[bmonth] = bday;
-        for (int i = month; i <= bmonth; i++) {
-            count += jahre_tage[i];
-        }
-        cout << count << endl; return 0;//2
-    }
-
-    else { // Сложение дней при переходе на следующий год (если др перед текущ. днём)
-        jahre_tage[month] -= day;
-        for (int i = month; i <= 12; i++) { // Первый кусок
-            //cout << count << " " << jahre_tage[i] << endl;///
-            count += jahre_tage[i];
-        }
-        jahre_tage[month] += (day - 1);
-
-        if ((year + 1) % 400 == 0 or ((year + 1) % 4 == 0 and (year + 1) % 100 != 0)) { // Проверка следующего года
-            jahre_tage[2] += 1;                                                        // на "високосность"
-        }
-        //cout << "<>" << endl;///
-        jahre_tage[bmonth] = bday;
-        for (int i = 1; i <= bmonth; i++) { // Соответственно второй кусок
-            //cout << count << " " << jahre_tage[i] << endl;///
-            count += jahre_tage[i];
-        }
-        count = (bday == 29 and day == 28 and month == 2 and bmonth == 2) ? count-1 : count;
-        cout << count << endl; return 0;//3
-    }
+    cout << JDN2 - JDN << endl;
 }
