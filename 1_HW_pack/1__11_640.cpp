@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
     int day, mouth, year, bday, bmouth;
-    cin >> bday >> bmouth; cin >> day >> mouth >> year;
+    cin >> bday >> bmouth;   cin >> day >> mouth >> year;
 
     int arg = (14 - mouth) / 12,    year_arg = year + 4800 - arg,    mouth_arg = mouth + 12 * arg - 3;
 
@@ -18,12 +18,15 @@ int main() {
         //cout << "first\n";/////
     }
 
-    else if ( !(((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) and (bday == 29 and bmouth == 2) ) { /* Добавление дней, если текущий год невисокосный
-                                                                                                                                                    и др 29 фев */
+    else if ( (!(((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) or ((mouth > 2) and
+        (((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)))) and (bday == 29 and bmouth == 2) ) { // Добавление дней, если др 29 фев
 
-        while ( !(((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) ) { // Проверка года на "високосность"
+        for (int i = year; i < 3000; i++) { // Проверка года на "високосность"
             year++;
-            //cout << year << " <> " << (((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) << "\nsecond\n";/////
+            if ( (((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0)) ) {
+                //cout << "\nsecond\n";/////
+                break;
+            }
         }
     }
 
