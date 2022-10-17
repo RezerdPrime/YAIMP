@@ -6,17 +6,21 @@ int main() {
     int degrees_int;
 
     int hour, min, sec;
-    cout << degrees * 120 << endl;///
-    degrees_int = int(degrees * 120); degrees_int %= 43200;
+    //cout << degrees * 120 << endl;///
+    degrees_int = int(degrees * 120);
 
-    cout << degrees_int << endl;///
+    //cout << degrees_int << endl;///
 
-    hour = degrees_int / 3600; degrees_int -= hour * 3600;
-    min = degrees_int / 60; degrees_int -= min * 60;
-    sec = degrees_int;
+//    hour = degrees_int / 3600; degrees_int -= hour * 3600;
+//    min = degrees_int / 60; degrees_int -= min * 60;
+//    sec = degrees_int;
+
+    hour = degrees_int / 3600;
+    min = (degrees_int - (hour * 3600)) / 60;
+    sec = degrees_int % 60;
 
     cout << hour << " " << min << " " << sec << endl;
-    cout << hour * 3600 + min * 60 + sec << endl;///
+    //cout << hour * 3600 + min * 60 + sec << endl;///
 }
 
 
