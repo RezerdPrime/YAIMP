@@ -128,5 +128,4 @@ int main() {
             fout << setfill('0') << setw(9) << long_number2[i];
         }
     }
-
 }
